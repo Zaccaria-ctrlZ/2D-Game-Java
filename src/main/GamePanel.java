@@ -1,6 +1,7 @@
 package main;
 
 import entity.Player;
+import tile.TileManager;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -21,14 +22,15 @@ public class GamePanel extends JPanel implements Runnable { //Runnable allows us
                           */
 
     public final int tileSize = originalTileSize * scale; // 48x48, this is the actual tile size that will be displayed.
-    final int maxScreenCol = 16; // This decides the max displayed tiles in a single panel horizontally.
-    final int maxScreenRow = 12; // Same as before but vertically.
+    public final int maxScreenCol = 16; // This decides the max displayed tiles in a single panel horizontally.
+    public final int maxScreenRow = 12; // Same as before but vertically.
     final int screenWidth = tileSize * maxScreenCol;  // The actual size in pixel horizontally.
     final int screenHeight = tileSize * maxScreenRow; // The actual size in pixel vertically.
 
     // FPS
     int FPS = 60;
 
+    TileManager tileManager = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // Create a new thread which allow as to execute some codes in parallel of other things.
                         // Thread is an object which is just initialized with a name, gameThread. Similar as
@@ -100,6 +102,7 @@ public class GamePanel extends JPanel implements Runnable { //Runnable allows us
 
         Graphics2D g2 = (Graphics2D)g; //Graphics2d class extends the Graphics class to provide more sophisticated
                                         //control over geometry, coordinate transformations, color management, and text layout.
+        tileManager.draw(g2);
         player.draw(g2);
         g2.dispose();// Dispose of this graphics context and release any system resources that is using. Save some memories.
     }
