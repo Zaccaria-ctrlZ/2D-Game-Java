@@ -25,7 +25,8 @@ public class Player extends Entity {
         x = 100;
         y = 100;
         speed = 4;
-        direction = "up";
+        direction = "idle";
+        lastDirection = "down";
     }
 
     public void getPlayerImage(){
@@ -39,6 +40,10 @@ public class Player extends Entity {
             left2 = ImageIO.read(getClass().getResourceAsStream("/player/cat/character11.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/player/cat/character14.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/player/cat/character15.png"));
+            idleDown = ImageIO.read(getClass().getResourceAsStream("/player/cat/character00.png"));
+            idleUp = ImageIO.read(getClass().getResourceAsStream("/player/cat/character04.png"));            idleLeft = ImageIO.read(getClass().getResourceAsStream("/player/cat/character08.png"));
+            idleRight = ImageIO.read(getClass().getResourceAsStream("/player/cat/character12.png"));
+
         }
         catch (IOException e){
             e.printStackTrace();
@@ -66,6 +71,8 @@ public class Player extends Entity {
                 ;
             }
 
+            lastDirection = direction;
+
             spriteCounter++;
             if(spriteCounter > 5){
                 if(spriteNum == 1){
@@ -76,6 +83,11 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
+
+        }
+
+        else {
+            direction = "idle";
         }
 
 
@@ -120,6 +132,21 @@ public class Player extends Entity {
                     img = right2;
                 }
                 break;
+            case "idle":
+                if(lastDirection.equals("up")){
+                    img = idleUp;
+
+                }
+                else if(lastDirection.equals("down")){
+                    img = idleDown;
+                }
+                else if(lastDirection.equals("left")){
+                    img = idleLeft;
+                }
+                else if(lastDirection.equals("right")){
+                    img = idleRight;
+                }
+
         }
 
         g2.drawImage(img, x, y, gp.tileSize, gp.tileSize, null);
